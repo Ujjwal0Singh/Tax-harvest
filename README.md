@@ -1,6 +1,7 @@
 Tax Loss Harvesting Tool
 --------------------------
 ![image alt](https://github.com/Ujjwal0Singh/Tax-harvest/blob/main/Screenshot%20(199).png?raw=true)
+![image alt] (https://github.com/Ujjwal0Singh/Tax-harvest/blob/43985ae0c0454e93a2e51bf3bf5d5fe51663228c/Screenshot%20(200).png)
 
 A React-based interface for tax loss harvesting that helps users visualize and optimize their capital gains by selecting specific holdings to sell.
 
