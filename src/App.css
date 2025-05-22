@@ -1,38 +1,233 @@
-.App {
+/* src/styles.css */
+:root {
+  --primary-color: #3a86ff;
+  --secondary-color: #4cc9f0;
+  --light-bg: #f8f9fa;
+  --dark-bg: #212529;
+  --positive: #2ecc71;
+  --negative: #e74c3c;
+  --text-color: #333;
+  --text-light: #6c757d;
+  --border-color: #dee2e6;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--light-bg);
+  padding: 20px;
+}
+
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.loading, .error {
+  text-align: center;
+  padding: 50px;
+  font-size: 1.2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.error {
+  color: var(--negative);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.capital-gains-card {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: var(--card-shadow);
+}
+
+.capital-gains-card.after-harvesting {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.capital-gains-card h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.gains-section {
+  margin-bottom: 20px;
+}
+
+.gains-section h3 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.gains-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.gains-row.net {
+  font-weight: bold;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.positive {
+  color: var(--positive);
+}
+
+.negative {
+  color: var(--negative);
+}
+
+.capital-gains-card.after-harvesting .positive,
+.capital-gains-card.after-harvesting .negative {
+  color: white;
+  opacity: 0.9;
+}
+
+.realised-gains {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.realised-gains h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.realised-gains .amount {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.savings-message {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.holdings-table-container {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: var(--card-shadow);
+}
+
+.holdings-table-container h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--light-bg);
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.asset-cell {
+  min-width: 200px;
+}
+
+.asset-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.asset-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.coin {
+  font-weight: 500;
+}
+
+.coin-name {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.balance {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 3px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .cards-container {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media (max-width: 768px) {
+  .capital-gains-card {
+    padding: 15px;
+  }
+  
+  th, td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .asset-cell {
+    min-width: 150px;
   }
 }

@@ -1,25 +1,85 @@
-import logo from './logo.svg';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import { fetchHoldings, fetchCapitalGains } from './hooks/useMockAPI';
+import CapitalGainsCard from './components/CapitalsGainsCard';
+import HoldingsTable from './components/HoldingsTable';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [holdings, setHoldings] = useState([]);
+  const [capitalGains, setCapitalGains] = useState(null);
+  const [selectedHoldings, setSelectedHoldings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [holdingsData, gainsData] = await Promise.all([
+          fetchHoldings(),
+          fetchCapitalGains()
+        ]);
+        setHoldings(holdingsData);
+        setCapitalGains(gainsData.capitalGains);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSelectHolding = (coin, isSelected) => {
+    if (isSelected) {
+      setSelectedHoldings(prev => [...prev, coin]);
+    } else {
+      setSelectedHoldings(prev => prev.filter(c => c !== coin));
+    }
+  };
+
+  const handleSelectAll = (isSelected) => {
+    if (isSelected) {
+      setSelectedHoldings(holdings.map(h => h.coin));
+    } else {
+      setSelectedHoldings([]);
+    }
+  };
+
+  if (loading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header>
+        <h1>Tax Loss Harvesting</h1>
       </header>
+      
+      <div className="cards-container">
+        <CapitalGainsCard 
+          title="Pre-Harvesting" 
+          data={capitalGains} 
+          isPreHarvesting={true}
+        />
+        
+        <CapitalGainsCard 
+          title="After Harvesting" 
+          data={capitalGains} 
+          selectedHoldings={selectedHoldings}
+          holdings={holdings}
+          isPreHarvesting={false}
+        />
+      </div>
+      
+      <HoldingsTable 
+        holdings={holdings} 
+        selectedHoldings={selectedHoldings}
+        onSelectHolding={handleSelectHolding}
+        onSelectAll={handleSelectAll}
+      />
     </div>
   );
-}
+};
 
 export default App;
